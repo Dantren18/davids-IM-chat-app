@@ -6,7 +6,7 @@ export const MyMessage = ({ message }) => {
       <img
         src={message.attachments[0].file}
         alt="message-attachment"
-        classname="message-image"
+        className="message-image"
         style={{ float: "right" }}
       />
     );

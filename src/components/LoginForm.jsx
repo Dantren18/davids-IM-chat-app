@@ -1,36 +1,41 @@
 import { useState } from "react";
 import axios from "axios";
 
+const projectID = "115626bd-e1ea-4b21-a9fe-a3c7c7463a9b";
+
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     const authObject = {
-      "Project-ID": "115626bd-e1ea-4b21-a9fe-a3c7c7463a9b",
+      "Project-ID": projectID,
       "User-Name": username,
-      "User-Secret": "123123"
+      "User-Secret": password
     };
+
     try {
       await axios.get("https://api.chatengine.io/chats", {
         headers: authObject
       });
+
       localStorage.setItem("username", username);
       localStorage.setItem("password", password);
 
       window.location.reload();
-    } catch (error) {
-      setError("Sorry, that username and password does not match any user");
+      setError("");
+    } catch (err) {
+      setError("Oops, incorrect credentials.");
     }
   };
 
   return (
     <div className="wrapper">
       <div className="form">
-        <h1 className="title">Davids IM App</h1>
+        <h1 className="title">Chat Application</h1>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -41,7 +46,7 @@ const LoginForm = () => {
             required
           />
           <input
-            type="text"
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="input"
@@ -50,11 +55,11 @@ const LoginForm = () => {
           />
           <div align="center">
             <button type="submit" className="button">
-              <span>Start Chatting</span>
+              <span>Start chatting</span>
             </button>
           </div>
-          <h2 className="error">{error}</h2>
         </form>
+        <h1>{error}</h1>
       </div>
     </div>
   );
